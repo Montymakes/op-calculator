@@ -55,3 +55,7 @@ button {
 #clear {
     width: 100%;
 }
+
+.pressed {
+    opacity: 50%;
+}

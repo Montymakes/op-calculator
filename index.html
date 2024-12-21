@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+    <script src="scripts.js" defer></script>
 </head>
 <body>
     <div id="container">
@@ -15,23 +16,23 @@
             <span id="display-text">1+1</span>
         </div>
         <div id="buttons-container">
-            <button id="7">7</button>
-            <button id="8">8</button>
-            <button id="9">9</button>
-            <button id="divide">÷</button>
-            <button id="4">4</button>
-            <button id="5">5</button>
-            <button id="6">6</button>
-            <button id="multiply">X</button>
-            <button id="1">1</button>
-            <button id="2">2</button>
-            <button id="3">3</button>
-            <button id="subtract">-</button>
-            <button id="0">0</button>
-            <button id="decimal">.</button>
-            <button id="equal">=</button>
-            <button id="add">+</button>
-            <button id="clear">CLEAR</button>
+            <button class="operand" name="seven" value="7" id="7">7</button>
+            <button class="operand" name="eight" value="8" id="8">8</button>
+            <button class="operand" name="nine" value="9" id="9">9</button>
+            <button class="operator" name="divide" value="÷" id="divide">÷</button>
+            <button class="operand" name="four" value="4" id="4">4</button>
+            <button class="operand" name="five" value="5" id="5">5</button>
+            <button class="operand" name="six" value="6" id="6">6</button>
+            <button class="operator" name="multiply" value="*" id="multiply">*</button>
+            <button class="operand" name="one" value="1" id="1">1</button>
+            <button class="operand" name="two" value="2" id="2">2</button>
+            <button class="operand" name="three" value="3" id="3">3</button>
+            <button class="operator" name="subtract" value="-" id="subtract">-</button>
+            <button class="operand" name="zero" value="0" id="0">0</button>
+            <button class="operand" name="decimal" value="." id="decimal">.</button>
+            <button name="equal" value="=" id="equal">=</button>
+            <button class="operator" name="add" value="+" id="add">+</button>
+            <button name="clear" value="clear" id="clear">CLEAR</button>
         </div>
     </div>
 </body>
