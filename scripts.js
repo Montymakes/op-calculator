@@ -5,8 +5,6 @@ const operatorButtons = document.querySelectorAll(".operator");
 const clearDisplayButton = document.querySelector('#clear');
 const equalButton = document.querySelector("#equal");
 
-
-
 //Display Control Functions
 const populateDisplay = (e) => {
     const value = e.target.value;
