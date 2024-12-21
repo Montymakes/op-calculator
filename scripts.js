@@ -1,9 +1,32 @@
+// DOM Variables
+const displayTextContainer = document.querySelector("#display-text");
+const operandButtons = document.querySelectorAll(".operand");
+const operatorButtons = document.querySelectorAll(".operator");
+const clearDisplayButton = document.querySelector('#clear');
+const equalButton = document.querySelector("#equal");
+
+
+
+//Display Control Functions
+const populateDisplay = (e) => {
+    const value = e.target.value;
+    displayTextContainer.textContent += value;
+}
+for (const button of operandButtons) {
+    button.addEventListener("click", populateDisplay);
+}
+
+const clearDisplay = () => displayTextContainer.textContent = '';
+clearDisplayButton.addEventListener("click", clearDisplay);
+
+//Functions and Variables for Calculator Operations
+let equation = ''; 
 const add = (a, b) => a + b;
 const subtract = (a,b) => a - b;
 const multiply = (a,b) => a * b;
 const divide = (a,b) => a / b;
 
-const operate = (firstOperand, secondOperand, operator) => {
+const operate = (firstOperand, operator, secondOperand) => {
     switch (operator) {
         case "add": return add(firstOperand, secondOperand);
         case "subtract": return subtract(firstOperand,secondOperand);
@@ -12,42 +35,37 @@ const operate = (firstOperand, secondOperand, operator) => {
     }
 }
 
-const displayTextContainer = document.querySelector("#display-text");
-
-const populateDisplay = (e) => {
-    const value = e.target.value;
-    displayTextContainer.textContent += value;
-}
-const operandButtons = document.querySelectorAll(".operand");
-for (const button of operandButtons) {
-    button.addEventListener("click", populateDisplay);
+const removeEquals = () => {
+    equalButton.removeEventListener("click", equals);
 }
 
-const clearDisplayButton = document.querySelector('#clear');
-const clearDisplay = () => displayTextContainer.textContent = '';
+const equals = () => {
+    const secondOperand = displayTextContainer.textContent;
+    const [firstOperand, operator] = equation.split(" ");
+    const result = operate(Number(firstOperand), operator, Number(secondOperand));
+    displayTextContainer.textContent = result;
+
+    removeEquals();
+}
+
 const waitForNextOperand = (e) => {
     clearDisplay();
     for (const button of operandButtons) {
         button.removeEventListener('click', waitForNextOperand);
     }
+
     for (const button of operatorButtons) {
         button.classList.remove('pressed');
     }
 
     populateDisplay(e);
+
+    equalButton.addEventListener("click", equals);
 }
 
-clearDisplayButton.addEventListener("click", clearDisplay);
-
-
-let equation = '';
-const operatorButtons = document.querySelectorAll(".operator");
 const operation = (e) => {
-    //highlight the operator button that was just clicked
     e.target.classList.add("pressed");
-    //store the first operand in the equation variable
-    equation = `${displayTextContainer.textContent} ${e.target.value}`;
-    // add an event listener to operands that will clear the screen
+    equation = `${displayTextContainer.textContent} ${e.target.name}`;
     for (const button of operandButtons) {
         button.addEventListener('click', waitForNextOperand);
     }
@@ -56,3 +74,4 @@ const operation = (e) => {
 for (const button of operatorButtons) {
     button.addEventListener('click', operation);
 }
+
