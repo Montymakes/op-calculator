@@ -5,11 +5,10 @@ const operatorButtons = document.querySelectorAll(".operator");
 const clearDisplayButton = document.querySelector('#clear');
 const equalButton = document.querySelector("#equal");
 
-//Holds value
 let equation = '';
 
-
 const populateDisplay = (e) => {
+    if (displayTextContainer.textContent === "IMPOSSIBLE!") clearDisplay();
     const value = e.target.value;
     displayTextContainer.textContent += value;
 }
@@ -42,7 +41,10 @@ clearDisplayButton.addEventListener("click", clear);
 const add = (a, b) => a + b;
 const subtract = (a,b) => a - b;
 const multiply = (a,b) => a * b;
-const divide = (a,b) => a / b;
+const divide = (a,b) => {
+    if (b === 0) return "IMPOSSIBLE!";
+    return a / b;
+};
 
 const operate = (firstOperand, operator, secondOperand) => {
     switch (operator) {
@@ -60,7 +62,7 @@ const equals = (e) => {
     const secondOperand = displayTextContainer.textContent;
     const [firstOperand, operator] = equation.split(" ");
     let result = operate(Number(firstOperand), operator, Number(secondOperand));
-    if (result % 1 !== 0) result = Math.round(result * 100000) / 100000; //rounds floats to 5 decimal places.
+    if (Number(result) && result % 1 !== 0 ) result = Math.round(result * 100000) / 100000; //rounds floats to 5 decimal places.
     displayTextContainer.textContent = result;
     removeEquals();
 }
