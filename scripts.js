@@ -18,7 +18,26 @@ for (const button of operandButtons) {
 }
 
 const clearDisplay = () => displayTextContainer.textContent = '';
-clearDisplayButton.addEventListener("click", clearDisplay);
+
+const removeWaitForNextOperand = () => {
+    for (const button of operandButtons) {
+        button.removeEventListener('click', waitForNextOperand);
+    }
+}
+
+const removePressed = () => {
+    for (const button of operatorButtons) {
+        button.classList.remove('pressed');
+    }
+}
+
+const clear = () => {
+    clearDisplay();
+    removeWaitForNextOperand();
+    removePressed();
+};
+
+clearDisplayButton.addEventListener("click", clear);
 
 const add = (a, b) => a + b;
 const subtract = (a,b) => a - b;
@@ -43,30 +62,17 @@ const equals = (e) => {
     let result = operate(Number(firstOperand), operator, Number(secondOperand));
     if (result % 1 !== 0) result = Math.round(result * 100000) / 100000; //rounds floats to 5 decimal places.
     displayTextContainer.textContent = result;
-
     removeEquals();
 }
 
-const removeWaitForNextOperand = () => {
-    for (const button of operandButtons) {
-        button.removeEventListener('click', waitForNextOperand);
-    }
-}
-
 const waitForNextOperand = (e) => {
-    clearDisplay();
-    removeWaitForNextOperand();
-   
-    for (const button of operatorButtons) {
-        button.classList.remove('pressed');
-    }
-
+    clear();
     populateDisplay(e);
-
     equalButton.addEventListener("click", equals);
 }
 
 const operation = (e) => {
+    removePressed();
     e.target.classList.add("pressed");
     equation = `${displayTextContainer.textContent} ${e.target.name}`;
     for (const button of operandButtons) {

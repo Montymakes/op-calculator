@@ -52,10 +52,15 @@ button {
     border: 2px solid rgb(151, 148, 148);
 }
 
+button:hover {
+    background-color: rgb(228, 182, 182);
+}
+
 #clear {
     width: 100%;
 }
 
 .pressed {
     opacity: 50%;
+    background-color: rgb(228, 182, 182);
 }
