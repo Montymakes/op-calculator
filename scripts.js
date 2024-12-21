@@ -5,7 +5,10 @@ const operatorButtons = document.querySelectorAll(".operator");
 const clearDisplayButton = document.querySelector('#clear');
 const equalButton = document.querySelector("#equal");
 
-//Display Control Functions
+//Holds value
+let equation = '';
+
+
 const populateDisplay = (e) => {
     const value = e.target.value;
     displayTextContainer.textContent += value;
@@ -17,8 +20,6 @@ for (const button of operandButtons) {
 const clearDisplay = () => displayTextContainer.textContent = '';
 clearDisplayButton.addEventListener("click", clearDisplay);
 
-//Functions and Variables for Calculator Operations
-let equation = ''; 
 const add = (a, b) => a + b;
 const subtract = (a,b) => a - b;
 const multiply = (a,b) => a * b;
@@ -32,26 +33,30 @@ const operate = (firstOperand, operator, secondOperand) => {
         case "divide": return divide(firstOperand,secondOperand);
     }
 }
-
 const removeEquals = () => {
     equalButton.removeEventListener("click", equals);
 }
 
-const equals = () => {
+const equals = (e) => {
     const secondOperand = displayTextContainer.textContent;
     const [firstOperand, operator] = equation.split(" ");
-    const result = operate(Number(firstOperand), operator, Number(secondOperand));
+    let result = operate(Number(firstOperand), operator, Number(secondOperand));
+    if (result % 1 !== 0) result = Math.round(result * 100000) / 100000; //rounds floats to 5 decimal places.
     displayTextContainer.textContent = result;
 
     removeEquals();
 }
 
-const waitForNextOperand = (e) => {
-    clearDisplay();
+const removeWaitForNextOperand = () => {
     for (const button of operandButtons) {
         button.removeEventListener('click', waitForNextOperand);
     }
+}
 
+const waitForNextOperand = (e) => {
+    clearDisplay();
+    removeWaitForNextOperand();
+   
     for (const button of operatorButtons) {
         button.classList.remove('pressed');
     }
