@@ -4,11 +4,20 @@ const operandButtons = document.querySelectorAll(".operand");
 const operatorButtons = document.querySelectorAll(".operator");
 const clearDisplayButton = document.querySelector('#clear');
 const equalButton = document.querySelector("#equal");
+const decimalButton = document.querySelector("#decimal");
 
 let equation = '';
 
+const toggleDecimalButton = (disabled) => {
+    if (disabled) {
+        decimalButton.disabled = false;
+    }
+    else decimalButton.disabled = true;
+}
+
 const populateDisplay = (e) => {
     if (displayTextContainer.textContent === "IMPOSSIBLE!") clearDisplay();
+    if (e.target.id === "decimal") toggleDecimalButton(decimalButton.disabled);
     const value = e.target.value;
     displayTextContainer.textContent += value;
 }
@@ -34,6 +43,7 @@ const clear = () => {
     clearDisplay();
     removeWaitForNextOperand();
     removePressed();
+    toggleDecimalButton(true);
 };
 
 clearDisplayButton.addEventListener("click", clear);
@@ -65,6 +75,7 @@ const equals = (e) => {
     if (Number(result) && result % 1 !== 0 ) result = Math.round(result * 100000) / 100000; //rounds floats to 5 decimal places.
     displayTextContainer.textContent = result;
     removeEquals();
+    toggleDecimalButton(true);
 }
 
 const waitForNextOperand = (e) => {
@@ -75,6 +86,7 @@ const waitForNextOperand = (e) => {
 
 const operation = (e) => {
     removePressed();
+    if (decimalButton.disabled) toggleDecimalButton(decimalButton.disabled);
     e.target.classList.add("pressed");
     equation = `${displayTextContainer.textContent} ${e.target.name}`;
     for (const button of operandButtons) {
