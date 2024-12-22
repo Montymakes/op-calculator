@@ -97,12 +97,28 @@ const equals = (e) => {
     displayTextContainer.textContent = result;
     removeEquals();
     toggleDecimalButton(true);
-}
-
+};
+   
 const waitForNextOperand = (e) => {
     clear();
     populateDisplay(e);
     equalButton.addEventListener("click", equals);
+};
+
+const cancelOperation = (e) => {
+    removePressed()
+    removeWaitForNextOperand();
+    if (displayTextContainer.textContent.includes('.')) toggleDecimalButton(decimalButton.disabled);
+    removeCancelOperationEventListener(e);
+    e.target.addEventListener('click', operation);
+};
+
+const removeOperationEventListener = (e) => {
+    e.target.removeEventListener('click', operation);
+}
+
+const removeCancelOperationEventListener = (e) => {
+    e.target.removeEventListener("click", cancelOperation);
 }
 
 const operation = (e) => {
@@ -111,9 +127,12 @@ const operation = (e) => {
     e.target.classList.add("pressed");
     equation = `${displayTextContainer.textContent} ${e.target.name}`;
     for (const button of operandButtons) {
-        button.addEventListener('click', waitForNextOperand);
+        button.addEventListener("click", waitForNextOperand);
     }
-}
+
+    removeOperationEventListener(e);
+    e.target.addEventListener('click', cancelOperation);
+};
 
 for (const button of operatorButtons) {
     button.addEventListener('click', operation);
