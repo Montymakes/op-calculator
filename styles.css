@@ -57,9 +57,12 @@ button:hover {
 }
 
 #clear {
-    width: 100%;
+    width: 70%;
 }
 
+#delete {
+    width: 30%;
+}
 .pressed {
     opacity: 50%;
     background-color: rgb(228, 182, 182);

@@ -5,6 +5,7 @@ const operatorButtons = document.querySelectorAll(".operator");
 const clearDisplayButton = document.querySelector('#clear');
 const equalButton = document.querySelector("#equal");
 const decimalButton = document.querySelector("#decimal");
+const deleteButton = document.querySelector("#delete");
 
 let equation = '';
 
@@ -15,7 +16,26 @@ const toggleDecimalButton = (disabled) => {
     else decimalButton.disabled = true;
 }
 
+const toggleDeleteButton = (disabled) => {
+    if (disabled) {
+        deleteButton.disabled = false;
+    }
+    else deleteButton.disabled = true;
+}
+
+const deleteNumber = () => {
+    const displayText = displayTextContainer.textContent.split('');
+    const deleted = displayText.pop();
+    console.log(deleted)
+    if (deleted === ".") toggleDecimalButton(decimalButton.disabled);
+    if (displayText.length < 1) toggleDeleteButton(deleteButton.disabled);
+    console.log(displayText);
+    displayTextContainer.textContent = displayText.join("");
+}
+deleteButton.addEventListener("click", deleteNumber);
+
 const populateDisplay = (e) => {
+    toggleDeleteButton(true);
     if (displayTextContainer.textContent === "IMPOSSIBLE!") clearDisplay();
     if (e.target.id === "decimal") toggleDecimalButton(decimalButton.disabled);
     const value = e.target.value;
@@ -44,6 +64,7 @@ const clear = () => {
     removeWaitForNextOperand();
     removePressed();
     toggleDecimalButton(true);
+    toggleDeleteButton(false);
 };
 
 clearDisplayButton.addEventListener("click", clear);
